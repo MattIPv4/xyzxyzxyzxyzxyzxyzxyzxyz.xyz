@@ -16,6 +16,9 @@ function image($path)
 
 function image_raw($path)
 {
+    if (!function_exists("mime_content_type")) {
+        require_once "mimetype.php";
+    }
     header("Content-type: " . mime_content_type("i/" . $path));
     echo file_get_contents("i/" . $path);
 }
