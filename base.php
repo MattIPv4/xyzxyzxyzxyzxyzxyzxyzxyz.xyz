@@ -1,5 +1,8 @@
-<?php function render($title, $content)
+<?php function render($title, $content, $image_url = "")
 {
+    $base_route = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"];
+    $full_route = $base_route . "/" . strtok(trim($_SERVER['REQUEST_URI'], "/"), "?");
+    $image_url = ($image_url ? $base_route . $image_url : "");
     ob_start(); ?>
     <!doctype HTML>
     <html lang="en">
@@ -7,6 +10,54 @@
     <head>
         <meta charset="utf-8">
         <title><?php echo $title; ?></title>
+
+        <link rel="image_src"
+              content="<?php echo $image_url; ?>"/>
+
+        <meta name="twitter:card"
+              content="summary_large_image">
+
+        <meta name="twitter:site"
+              content="<?php echo $full_route; ?>"/>
+
+        <meta name="twitter:creator"
+              content="@MattIPv4"/>
+
+        <meta name="twitter:title"
+              content="<?php echo $title; ?>"/>
+
+        <meta name="twitter:image"
+              content="<?php echo $image_url; ?>"/>
+
+        <meta name="twitter:url"
+              content="<?php echo $full_route; ?>"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:title"
+              content="<?php echo $title; ?>"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:type"
+              content="website"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:locale"
+              content="en_GB"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:site_name"
+              content="<?php echo $title; ?>"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:url"
+              content="<?php echo $full_route; ?>"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:image"
+              content="<?php echo $image_url; ?>"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:image:url"
+              content="<?php echo $image_url; ?>"/>
+
+        <meta prefix="og: http://ogp.me/ns#" property="og:image:secure_url"
+              content="<?php echo $image_url; ?>"/>
+
+        <meta name="theme-color" content="#111"/>
+
         <style>
             html, body {
                 background: #111;
