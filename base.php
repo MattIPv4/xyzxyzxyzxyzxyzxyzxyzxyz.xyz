@@ -124,6 +124,33 @@
         <?php echo $content; ?>
         <h3>xyz<span>*8</span>.xyz is a site made by <a href="https://mattcowley.co.uk">Matt Cowley</a>.</h3>
     </div>
+
+    <script>
+        (function () {
+            var elms = document.querySelectorAll("h2 span");
+            var delay = 500;
+
+            for (var i = 0; i < elms.length; i++) {
+                elms[i].style.position = "relative";
+                elms[i].style.top = "-5em";
+                elms[i].style.opacity = "0";
+                elms[i].style.transition = "all " + delay.toString() + "ms";
+            }
+
+            function doAnimation(i) {
+                setTimeout(function () {
+                    elms[i].style.top = "0";
+                    elms[i].style.opacity = "1";
+                }, (delay / 2) * (i));
+            }
+
+            setTimeout(function () {
+                for (var i = 0; i < elms.length; i++) {
+                    doAnimation(i);
+                }
+            }, delay / 2);
+        })();
+    </script>
     </body>
 
     </html>
