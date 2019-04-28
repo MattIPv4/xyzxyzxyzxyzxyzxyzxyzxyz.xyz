@@ -23,7 +23,7 @@ function image_raw($path)
     echo file_get_contents("i/" . $path);
 }
 
-$route = strtok(trim($_SERVER['REQUEST_URI'], "/"), "?");
+$route = strtok(trim(rawurldecode($_SERVER['UNENCODED_URL'] ?? $_SERVER['REQUEST_URI']), "/"), "?");
 $route_1 = explode('/', $route, 2)[0];
 
 switch ($route_1) {
