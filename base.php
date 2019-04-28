@@ -1,7 +1,7 @@
 <?php function render($title, $content, $image_url = "")
 {
     $base_route = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"];
-    $full_route = $base_route . "/" . strtok(trim($_SERVER['REQUEST_URI'], "/"), "?");
+    $full_route = $base_route . "/" . strtok(trim(rawurldecode($_SERVER['UNENCODED_URL'] ?? $_SERVER['REQUEST_URI']), "/"), "?");
     $image_url = ($image_url ? $base_route . $image_url : "");
     ob_start(); ?>
     <!doctype HTML>
@@ -75,9 +75,13 @@
             }
 
             h2 {
-                margin: 0 0 .5rem;
+                margin: 0;
                 color: #787878;
                 font-size: 1.2rem;
+            }
+
+            h2 span {
+                opacity: 0;
             }
 
             h2 span:nth-child(even) {
@@ -85,12 +89,19 @@
             }
 
             h3 {
+                margin: .4rem 0;
+                color: #8f8f8f;
+                font-size: 1.1rem;
+                opacity: 0;
+            }
+
+            h4 {
                 margin: .5rem 0 0;
                 color: #787878;
                 font-size: 0.7rem;
             }
 
-            h3 span {
+            h4 span {
                 font-size: 0.9em;
                 color: #4b4b4b;
             }
@@ -122,14 +133,19 @@
     <div class="content">
         <h2><?php echo str_repeat("<span>xyz</span>", 8); ?><span>.xyz</span></h2>
         <?php echo $content; ?>
-        <h3>xyz<span>*8</span>.xyz is a site made by <a href="https://mattcowley.co.uk">Matt Cowley</a>.</h3>
+        <h4>xyz<span>*8</span>.xyz is a site made by <a href="https://mattcowley.co.uk">Matt Cowley</a>.</h4>
     </div>
 
     <script>
         (function () {
             var elms = document.querySelectorAll("h2 span");
+            var titles = document.querySelectorAll("h3");
             var delay = 500;
 
+            for (var i = 0; i < titles.length; i++) {
+                titles[i].style.opacity = "0";
+                titles[i].style.transition = "opacity " + delay.toString() + "ms";
+            }
             for (var i = 0; i < elms.length; i++) {
                 elms[i].style.position = "relative";
                 elms[i].style.top = "-5em";
@@ -149,6 +165,12 @@
                     doAnimation(i);
                 }
             }, delay / 2);
+
+            setTimeout(function () {
+                for (var i = 0; i < titles.length; i++) {
+                    titles[i].style.opacity = "1";
+                }
+            }, delay);
         })();
     </script>
     </body>

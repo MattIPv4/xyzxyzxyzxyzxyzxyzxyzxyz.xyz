@@ -10,7 +10,7 @@ function error($code, $title, $extra)
 function image($path)
 {
     require_once "base.php";
-    $content = "<a href='/i/raw/" . $path . "'><img src='/i/raw/" . $path . "' alt='" . $path . "'/></a>";
+    $content = "<h3>" . $path . "</h3><a href='/i/raw/" . $path . "'><img src='/i/raw/" . $path . "' alt='" . $path . "'/></a>";
     echo render($path, $content, "/i/raw/" . $path);
 }
 
