@@ -24,6 +24,11 @@ function image_raw($path)
 }
 
 $route = strtok(trim(rawurldecode($_SERVER['UNENCODED_URL'] ?? $_SERVER['REQUEST_URI']), "/"), "?");
+
+$emoji_route = "ℹ️🔗";
+$pos = strpos($route, $emoji_route);
+if ($pos !== false) $route = substr_replace($route, "i/", $pos, strlen($emoji_route));
+
 $route_1 = explode('/', $route, 2)[0];
 
 switch ($route_1) {
